@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增学习资料管理')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" enctype="multipart/form-data" id="form-book-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">文件：</label>
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" id="filePath" name="filePath"/>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资料名：</label>
+                <div class="col-sm-8">
+                    <input name="fileName" id="fileName" class="form-control" type="text">
+                </div>
+            </div>
+            <!--<div class="form-group">
+                <label class="col-sm-3 control-label">目录：</label>
+                <div class="col-sm-8">
+                    <input name="path" class="form-control" type="text">
+                </div>
+            </div>-->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">描述：</label>
+                <div class="col-sm-8">
+                    <input name="description" id="description" class="form-control" type="text">
+                </div>
+            </div>
+            <!--<div class="form-group">
+                <label class="col-sm-3 control-label">关联上传人员id：</label>
+                <div class="col-sm-8">
+                    <input name="userId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">关联上传人员姓名：</label>
+                <div class="col-sm-8">
+                    <input name="userName" class="form-control" type="text">
+                </div>
+            </div>-->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        $("#form-book-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                uploadFile();
+            }
+        }
+
+        function uploadFile() {
+            var formData = new FormData();
+            var prefix = ctx + "leaning/book";
+            if ($('#filePath')[0].files[0] == null) {
+                $.modal.alertWarning("请先选择文件");
+                return false;
+            }
+
+            formData.append('file', $('#filePath')[0].files[0]);
+            formData.append('fileName', $('#fileName').val());
+            formData.append('description', $('#description').val());
+            $.ajax({
+                url: prefix + "/add",
+                type: 'post',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function(result) {
+                    $.operate.successCallback(result);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
