@@ -1,7 +1,7 @@
-package com.ruoyi.project.leaning.book.service;
+package com.ruoyi.project.learning.book.service;
 
 import java.util.List;
-import com.ruoyi.project.leaning.book.domain.UploadLearningFileInfo;
+import com.ruoyi.project.learning.book.domain.UploadLearningFileInfo;
 
 /**
  * 学习资料管理Service接口

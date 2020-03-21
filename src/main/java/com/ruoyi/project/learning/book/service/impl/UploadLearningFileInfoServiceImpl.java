@@ -1,12 +1,12 @@
-package com.ruoyi.project.leaning.book.service.impl;
+package com.ruoyi.project.learning.book.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.leaning.book.mapper.UploadLearningFileInfoMapper;
-import com.ruoyi.project.leaning.book.domain.UploadLearningFileInfo;
-import com.ruoyi.project.leaning.book.service.IUploadLearningFileInfoService;
+import com.ruoyi.project.learning.book.mapper.UploadLearningFileInfoMapper;
+import com.ruoyi.project.learning.book.domain.UploadLearningFileInfo;
+import com.ruoyi.project.learning.book.service.IUploadLearningFileInfoService;
 import com.ruoyi.common.utils.text.Convert;
 
 /**

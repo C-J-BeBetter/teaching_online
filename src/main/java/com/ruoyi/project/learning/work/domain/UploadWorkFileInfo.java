@@ -1,4 +1,4 @@
-package com.ruoyi.project.leaning.book.domain;
+package com.ruoyi.project.learning.work.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -6,20 +6,20 @@ import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
- * 学习资料管理对象 t_upload_learning_file_info
+ * 作业资料管理对象 t_upload_work_file_info
  * 
  * @author ruoyi
  * @date 2020-03-21
  */
-public class UploadLearningFileInfo extends BaseEntity
+public class UploadWorkFileInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 资料ID */
+    /** 文件ID */
     private Long id;
 
-    /** 资料名 */
-    @Excel(name = "资料名")
+    /** 文件名 */
+    @Excel(name = "文件名")
     private String fileName;
 
     /** 目录 */

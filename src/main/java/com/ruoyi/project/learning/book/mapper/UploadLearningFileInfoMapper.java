@@ -1,7 +1,7 @@
-package com.ruoyi.project.leaning.book.mapper;
+package com.ruoyi.project.learning.book.mapper;
 
 import java.util.List;
-import com.ruoyi.project.leaning.book.domain.UploadLearningFileInfo;
+import com.ruoyi.project.learning.book.domain.UploadLearningFileInfo;
 
 /**
  * 学习资料管理Mapper接口

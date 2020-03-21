@@ -1,6 +1,5 @@
-package com.ruoyi.project.leaning.book.controller;
+package com.ruoyi.project.learning.book.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,8 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
-import com.ruoyi.project.leaning.book.domain.UploadLearningFileInfo;
-import com.ruoyi.project.leaning.book.service.IUploadLearningFileInfoService;
+import com.ruoyi.project.learning.book.domain.UploadLearningFileInfo;
+import com.ruoyi.project.learning.book.service.IUploadLearningFileInfoService;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -30,15 +29,15 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2020-03-21
  */
 @Controller
-@RequestMapping("/leaning/book")
+@RequestMapping("/learning/book")
 public class UploadLearningFileInfoController extends BaseController
 {
-    private String prefix = "leaning/book";
+    private String prefix = "learning/book";
 
     @Autowired
     private IUploadLearningFileInfoService uploadLearningFileInfoService;
 
-    @RequiresPermissions("leaning:book:view")
+    @RequiresPermissions("learning:book:view")
     @GetMapping()
     public String book()
     {
@@ -48,7 +47,7 @@ public class UploadLearningFileInfoController extends BaseController
     /**
      * 查询学习资料管理列表
      */
-    @RequiresPermissions("leaning:book:list")
+    @RequiresPermissions("learning:book:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(UploadLearningFileInfo uploadLearningFileInfo)
@@ -61,11 +60,11 @@ public class UploadLearningFileInfoController extends BaseController
     /**
      * 导出学习资料管理列表
      */
-    @RequiresPermissions("leaning:book:download")
+    @RequiresPermissions("learning:book:export")
     @Log(title = "学习资料管理", businessType = BusinessType.EXPORT)
-    @PostMapping("/download")
+    @PostMapping("/export")
     @ResponseBody
-    public AjaxResult download(UploadLearningFileInfo uploadLearningFileInfo)
+    public AjaxResult export(UploadLearningFileInfo uploadLearningFileInfo)
     {
         List<UploadLearningFileInfo> list = uploadLearningFileInfoService.selectUploadLearningFileInfoList(uploadLearningFileInfo);
         ExcelUtil<UploadLearningFileInfo> util = new ExcelUtil<UploadLearningFileInfo>(UploadLearningFileInfo.class);
@@ -84,7 +83,7 @@ public class UploadLearningFileInfoController extends BaseController
     /**
      * 新增保存学习资料管理
      */
-    @RequiresPermissions("leaning:book:add")
+    @RequiresPermissions("learning:book:add")
     @Log(title = "学习资料管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -115,7 +114,7 @@ public class UploadLearningFileInfoController extends BaseController
     /**
      * 修改保存学习资料管理
      */
-    @RequiresPermissions("leaning:book:edit")
+    @RequiresPermissions("learning:book:edit")
     @Log(title = "学习资料管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -127,7 +126,7 @@ public class UploadLearningFileInfoController extends BaseController
     /**
      * 删除学习资料管理
      */
-    @RequiresPermissions("leaning:book:remove")
+    @RequiresPermissions("learning:book:remove")
     @Log(title = "学习资料管理", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

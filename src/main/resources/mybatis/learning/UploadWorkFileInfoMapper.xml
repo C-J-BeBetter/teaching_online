@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.project.leaning.book.mapper.UploadLearningFileInfoMapper">
+<mapper namespace="com.ruoyi.project.learning.work.mapper.UploadWorkFileInfoMapper">
     
-    <resultMap type="UploadLearningFileInfo" id="UploadLearningFileInfoResult">
+    <resultMap type="UploadWorkFileInfo" id="UploadWorkFileInfoResult">
         <result property="id"    column="id"    />
         <result property="fileName"    column="file_name"    />
         <result property="path"    column="path"    />
@@ -15,12 +15,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <sql id="selectUploadLearningFileInfoVo">
-        select id, file_name, path, description, user_id, user_name, create_time, update_time from t_upload_learning_file_info
+    <sql id="selectUploadWorkFileInfoVo">
+        select id, file_name, path, description, user_id, user_name, create_time, update_time from t_upload_work_file_info
     </sql>
 
-    <select id="selectUploadLearningFileInfoList" parameterType="UploadLearningFileInfo" resultMap="UploadLearningFileInfoResult">
-        <include refid="selectUploadLearningFileInfoVo"/>
+    <select id="selectUploadWorkFileInfoList" parameterType="UploadWorkFileInfo" resultMap="UploadWorkFileInfoResult">
+        <include refid="selectUploadWorkFileInfoVo"/>
         <where>  
             <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
             <if test="path != null  and path != ''"> and path = #{path}</if>
@@ -30,13 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectUploadLearningFileInfoById" parameterType="Long" resultMap="UploadLearningFileInfoResult">
-        <include refid="selectUploadLearningFileInfoVo"/>
+    <select id="selectUploadWorkFileInfoById" parameterType="Long" resultMap="UploadWorkFileInfoResult">
+        <include refid="selectUploadWorkFileInfoVo"/>
         where id = #{id}
     </select>
         
-    <insert id="insertUploadLearningFileInfo" parameterType="UploadLearningFileInfo" useGeneratedKeys="true" keyProperty="id">
-        insert into t_upload_learning_file_info
+    <insert id="insertUploadWorkFileInfo" parameterType="UploadWorkFileInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into t_upload_work_file_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="fileName != null  and fileName != ''">file_name,</if>
             <if test="path != null  and path != ''">path,</if>
@@ -57,8 +57,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateUploadLearningFileInfo" parameterType="UploadLearningFileInfo">
-        update t_upload_learning_file_info
+    <update id="updateUploadWorkFileInfo" parameterType="UploadWorkFileInfo">
+        update t_upload_work_file_info
         <trim prefix="SET" suffixOverrides=",">
             <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
             <if test="path != null  and path != ''">path = #{path},</if>
@@ -71,12 +71,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteUploadLearningFileInfoById" parameterType="Long">
-        delete from t_upload_learning_file_info where id = #{id}
+    <delete id="deleteUploadWorkFileInfoById" parameterType="Long">
+        delete from t_upload_work_file_info where id = #{id}
     </delete>
 
-    <delete id="deleteUploadLearningFileInfoByIds" parameterType="String">
-        delete from t_upload_learning_file_info where id in 
+    <delete id="deleteUploadWorkFileInfoByIds" parameterType="String">
+        delete from t_upload_work_file_info where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
