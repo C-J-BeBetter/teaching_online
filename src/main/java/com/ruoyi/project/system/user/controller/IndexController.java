@@ -58,6 +58,6 @@ public class IndexController extends BaseController
     public String main(ModelMap mmap)
     {
         mmap.put("version", ruoYiConfig.getVersion());
-        return "main";
+        return "learning/book/book";
     }
 }
