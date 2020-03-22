@@ -41,25 +41,6 @@ CREATE TABLE `l_commit_work_info`  (
 -- Records of l_commit_work_info
 -- ----------------------------
 
--- ----------------------------
--- Table structure for l_download_learning_info
--- ----------------------------
-DROP TABLE IF EXISTS `l_download_learning_info`;
-CREATE TABLE `l_download_learning_info`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `lb_id` int(11) NULL DEFAULT NULL COMMENT '关联学习资料ID',
-  `lb_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联学习资料名称',
-  `user_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联学员ID',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `44`(`lb_id`) USING BTREE,
-  INDEX `55`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1582 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '已下载学习资料表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of l_download_learning_info
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for l_learning_record_info
@@ -68,14 +49,10 @@ DROP TABLE IF EXISTS `l_learning_record_info`;
 CREATE TABLE `l_learning_record_info`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件ID',
   `description` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '笔记内容',
-  `lb_id` int(11) NULL DEFAULT NULL COMMENT '关联学习资料ID',
-  `lb_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联学习资料名称',
   `user_id` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联学员ID',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `66`(`lb_id`) USING BTREE,
-  INDEX `77`(`user_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1582 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '学习记录信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -140,9 +117,7 @@ CREATE TABLE `t_upload_work_file_info`  (
   `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关联上传人员姓名',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `22`(`lb_id`) USING BTREE,
-  INDEX `33`(`user_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1582 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '上传作业信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
