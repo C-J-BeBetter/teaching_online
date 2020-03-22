@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.learning.answer.mapper.LWorkReplyInfoMapper">
+    
+    <resultMap type="LWorkReplyInfo" id="LWorkReplyInfoResult">
+        <result property="id"    column="id"    />
+        <result property="reply"    column="reply"    />
+        <result property="replyFromUserId"    column="reply_from_user_id"    />
+        <result property="replyFromUserName"    column="reply_from_user_name"    />
+        <result property="replyToUserId"    column="reply_to_user_id"    />
+        <result property="replyToUserName"    column="reply_to_user_name"    />
+        <result property="replyTime"    column="reply_time"    />
+        <result property="wbId"    column="wb_id"    />
+        <result property="wbName"    column="wb_name"    />
+    </resultMap>
+
+    <sql id="selectLWorkReplyInfoVo">
+        select id, reply, reply_from_user_id, reply_from_user_name, reply_to_user_id, reply_to_user_name, reply_time, wb_id, wb_name from l_work_reply_info
+    </sql>
+
+    <select id="selectLWorkReplyInfoList" parameterType="LWorkReplyInfo" resultMap="LWorkReplyInfoResult">
+        <include refid="selectLWorkReplyInfoVo"/>
+        <where>  
+            <if test="reply != null  and reply != ''"> and reply = #{reply}</if>
+            <if test="replyFromUserId != null  and replyFromUserId != ''"> and reply_from_user_id = #{replyFromUserId}</if>
+            <if test="replyFromUserName != null  and replyFromUserName != ''"> and reply_from_user_name like concat('%', #{replyFromUserName}, '%')</if>
+            <if test="replyToUserId != null  and replyToUserId != ''"> and reply_to_user_id = #{replyToUserId}</if>
+            <if test="replyToUserName != null  and replyToUserName != ''"> and reply_to_user_name like concat('%', #{replyToUserName}, '%')</if>
+            <if test="replyTime != null "> and reply_time = #{replyTime}</if>
+            <if test="wbId != null "> and wb_id = #{wbId}</if>
+            <if test="wbName != null  and wbName != ''"> and wb_name like concat('%', #{wbName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectLWorkReplyInfoById" parameterType="Long" resultMap="LWorkReplyInfoResult">
+        <include refid="selectLWorkReplyInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLWorkReplyInfo" parameterType="LWorkReplyInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into l_work_reply_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="reply != null  and reply != ''">reply,</if>
+            <if test="replyFromUserId != null  and replyFromUserId != ''">reply_from_user_id,</if>
+            <if test="replyFromUserName != null  and replyFromUserName != ''">reply_from_user_name,</if>
+            <if test="replyToUserId != null  and replyToUserId != ''">reply_to_user_id,</if>
+            <if test="replyToUserName != null  and replyToUserName != ''">reply_to_user_name,</if>
+            <if test="replyTime != null ">reply_time,</if>
+            <if test="wbId != null ">wb_id,</if>
+            <if test="wbName != null  and wbName != ''">wb_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="reply != null  and reply != ''">#{reply},</if>
+            <if test="replyFromUserId != null  and replyFromUserId != ''">#{replyFromUserId},</if>
+            <if test="replyFromUserName != null  and replyFromUserName != ''">#{replyFromUserName},</if>
+            <if test="replyToUserId != null  and replyToUserId != ''">#{replyToUserId},</if>
+            <if test="replyToUserName != null  and replyToUserName != ''">#{replyToUserName},</if>
+            <if test="replyTime != null ">#{replyTime},</if>
+            <if test="wbId != null ">#{wbId},</if>
+            <if test="wbName != null  and wbName != ''">#{wbName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLWorkReplyInfo" parameterType="LWorkReplyInfo">
+        update l_work_reply_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="reply != null  and reply != ''">reply = #{reply},</if>
+            <if test="replyFromUserId != null  and replyFromUserId != ''">reply_from_user_id = #{replyFromUserId},</if>
+            <if test="replyFromUserName != null  and replyFromUserName != ''">reply_from_user_name = #{replyFromUserName},</if>
+            <if test="replyToUserId != null  and replyToUserId != ''">reply_to_user_id = #{replyToUserId},</if>
+            <if test="replyToUserName != null  and replyToUserName != ''">reply_to_user_name = #{replyToUserName},</if>
+            <if test="replyTime != null ">reply_time = #{replyTime},</if>
+            <if test="wbId != null ">wb_id = #{wbId},</if>
+            <if test="wbName != null  and wbName != ''">wb_name = #{wbName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLWorkReplyInfoById" parameterType="Long">
+        delete from l_work_reply_info where id = #{id}
+    </delete>
+
+    <delete id="deleteLWorkReplyInfoByIds" parameterType="String">
+        delete from l_work_reply_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

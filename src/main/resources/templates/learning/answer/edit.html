@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改作业讨论答疑信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-info-edit" th:object="${lWorkReplyInfo}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复内容：</label>
+                <div class="col-sm-8">
+                    <input name="reply" th:field="*{reply}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复人id：</label>
+                <div class="col-sm-8">
+                    <input name="replyFromUserId" th:field="*{replyFromUserId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复人姓名：</label>
+                <div class="col-sm-8">
+                    <input name="replyFromUserName" th:field="*{replyFromUserName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复对象id：</label>
+                <div class="col-sm-8">
+                    <input name="replyToUserId" th:field="*{replyToUserId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复对象姓名：</label>
+                <div class="col-sm-8">
+                    <input name="replyToUserName" th:field="*{replyToUserName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">回复时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="replyTime" th:value="${#dates.format(lWorkReplyInfo.replyTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">关联作业成绩id：</label>
+                <div class="col-sm-8">
+                    <input name="wbId" th:field="*{wbId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">关联作业名：</label>
+                <div class="col-sm-8">
+                    <input name="wbName" th:field="*{wbName}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "learning/answer";
+        $("#form-info-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-info-edit').serialize());
+            }
+        }
+
+        $("input[name='replyTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
