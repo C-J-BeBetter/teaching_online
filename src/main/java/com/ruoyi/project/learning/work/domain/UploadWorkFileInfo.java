@@ -1,9 +1,9 @@
 package com.ruoyi.project.learning.work.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 作业资料管理对象 t_upload_work_file_info
@@ -38,7 +38,7 @@ public class UploadWorkFileInfo extends BaseEntity
     @Excel(name = "关联上传人员姓名")
     private String userName;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }

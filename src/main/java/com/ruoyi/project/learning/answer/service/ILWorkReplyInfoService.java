@@ -1,8 +1,10 @@
 package com.ruoyi.project.learning.answer.service;
 
 import com.ruoyi.project.learning.answer.domain.LWorkReplyInfo;
+import com.ruoyi.project.learning.work.domain.UploadWorkFileInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作业讨论答疑信息Service接口
@@ -59,4 +61,8 @@ public interface ILWorkReplyInfoService
      * @return 结果
      */
     public int deleteLWorkReplyInfoById(Long id);
+
+    List<UploadWorkFileInfo> selectWorkByUser();
+
+    Map<String, Object> replyContnet(Long wdId);
 }

@@ -1,13 +1,26 @@
 package com.ruoyi.project.learning.answer.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Maps;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.framework.web.page.PageDomain;
+import com.ruoyi.framework.web.page.TableSupport;
 import com.ruoyi.project.learning.answer.domain.LWorkReplyInfo;
 import com.ruoyi.project.learning.answer.mapper.LWorkReplyInfoMapper;
 import com.ruoyi.project.learning.answer.service.ILWorkReplyInfoService;
+import com.ruoyi.project.learning.work.domain.UploadWorkFileInfo;
+import com.ruoyi.project.learning.work.service.IUploadWorkFileInfoService;
+import com.ruoyi.project.system.role.domain.Role;
+import com.ruoyi.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作业讨论答疑信息Service业务层处理
@@ -18,8 +31,14 @@ import java.util.List;
 @Service
 public class LWorkReplyInfoServiceImpl implements ILWorkReplyInfoService
 {
+    public static final String ADMIN = "admin";
+    public static final String TEACHER = "teacher";
+    public static final String STUDENT = "student";
     @Autowired
     private LWorkReplyInfoMapper lWorkReplyInfoMapper;
+
+    @Autowired
+    private IUploadWorkFileInfoService iUploadWorkFileInfoService;
 
     /**
      * 查询作业讨论答疑信息
@@ -91,5 +110,63 @@ public class LWorkReplyInfoServiceImpl implements ILWorkReplyInfoService
     public int deleteLWorkReplyInfoById(Long id)
     {
         return lWorkReplyInfoMapper.deleteLWorkReplyInfoById(id);
+    }
+
+    @Override
+    public List<UploadWorkFileInfo> selectWorkByUser() {
+        //1.登录信息
+        User user = ShiroUtils.getSysUser();
+        List<Role> roles = user.getRoles();
+        boolean teacher_flag = roles.stream().anyMatch(role -> role.getRoleKey().equals(ADMIN) || role.getRoleKey().equals(TEACHER));
+        boolean student_flag = roles.stream().anyMatch(role -> role.getRoleKey().equals(STUDENT));
+//        //2.根据登录信息获取对应老师发布的作业
+//        List<UploadWorkFileInfo> uploadWorkFileInfoList;
+//        if(teacher_flag){
+//              //所有班级信息
+//            UploadWorkFileInfo uploadWorkFileInfo = new UploadWorkFileInfo();
+//            uploadWorkFileInfo.setUserId(String.valueOf(user.getUserId()));
+//            uploadWorkFileInfoList = iUploadWorkFileInfoService.selectUploadWorkFileInfoList(uploadWorkFileInfo);
+//        }else if(student_flag){
+//            //查看所在班级作业信息
+//        }
+
+        UploadWorkFileInfo uploadWorkFileInfo = new UploadWorkFileInfo();
+        if(teacher_flag){
+            //所有作业
+            uploadWorkFileInfo.setUserId(String.valueOf(user.getUserId()));
+        }else if(student_flag){
+            //自己作业
+//            uploadWorkFileInfo.setUserId(String.valueOf(user.getUserId()));
+        }
+
+        List<UploadWorkFileInfo> uploadWorkFileInfoList = iUploadWorkFileInfoService.selectUploadWorkFileInfoList(uploadWorkFileInfo);
+
+        return uploadWorkFileInfoList;
+    }
+
+    @Override
+    public Map<String, Object> replyContnet(Long wbId) {
+        Map<String, Object> map = Maps.newHashMap();
+        // 根据wbId查找关于这条主题的所有信息
+        UploadWorkFileInfo workFileInfo = iUploadWorkFileInfoService.selectUploadWorkFileInfoById(wbId);
+        String themeDescription = workFileInfo.getDescription();
+        String themeName = workFileInfo.getFileName();
+        map.put("themeDescription",themeDescription);
+        map.put("themeName",themeName);
+
+        LWorkReplyInfo workReplyInfo = new LWorkReplyInfo();
+        workReplyInfo.setWbId(wbId);
+        //获取所有回复信息
+        List<LWorkReplyInfo> replyInfos = lWorkReplyInfoMapper.selectLWorkReplyInfoList(workReplyInfo);
+
+       if( StringUtils.isEmpty(replyInfos)){
+           return map;
+       }
+       // 根据内容 返回
+
+
+       return map;
+
+
     }
 }
