@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 作业讨论答疑信息对象 l_work_reply_info
@@ -50,6 +51,26 @@ public class LWorkReplyInfo extends BaseEntity
     /** 关联作业名 */
     @Excel(name = "关联作业名")
     private String wbName;
+
+    private String publishDate;
+
+    private List<LWorkReplyInfo> replyInfoList;
+
+    public List<LWorkReplyInfo> getReplyInfoList() {
+        return replyInfoList;
+    }
+
+    public void setReplyInfoList(List<LWorkReplyInfo> replyInfoList) {
+        this.replyInfoList = replyInfoList;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
 
     public void setId(Long id) 
     {

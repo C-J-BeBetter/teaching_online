@@ -2,6 +2,7 @@ package com.ruoyi.project.learning.answer.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -56,6 +57,7 @@ public class LWorkReplyInfoController extends BaseController
     {
         startPage();
         List<UploadWorkFileInfo> answerList = lWorkReplyInfoService.selectWorkByUser();
+
         PageInfo<UploadWorkFileInfo> pageInfo = PageInfo.of(answerList);
         mmap.put("tableDataInfo", pageInfo);
         mmap.put("currentPage", pageNum);
@@ -67,13 +69,15 @@ public class LWorkReplyInfoController extends BaseController
     /**
      * 作业答疑详情
      */
-    @RequiresPermissions("learning:answer:list")
-    @GetMapping("/detail/{wbId}")
-    public String detail(@PathVariable(value = "wbId") Long wdId, ModelMap mmap)
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable(value = "id") String wdId, ModelMap mmap)
     {
 
-//        List<LWorkReplyInfo> replyInfos = lWorkReplyInfoService.selectLWorkReplyInfoList(workReplyInfo);
-//        mmap.put("replyInfos",replyInfos);
+        Map<String, Object> themeInfo = lWorkReplyInfoService.replyContnet(Long.valueOf(wdId));
+        mmap.put("themeDescription", themeInfo.get("themeDescription"));
+        mmap.put("themeName", themeInfo.get("themeName"));
+        mmap.put("themeId", themeInfo.get("themeId"));
+        mmap.put("replyInfos",themeInfo.get("replyInfos"));
         return prefix + "/detail";
     }
 
@@ -108,8 +112,12 @@ public class LWorkReplyInfoController extends BaseController
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(LWorkReplyInfo lWorkReplyInfo)
+    public AjaxResult addSave(@RequestParam("reply") String reply,@RequestParam("wbId") String wbId,@RequestParam("wbName") String wbName )
     {
+        LWorkReplyInfo lWorkReplyInfo = new LWorkReplyInfo();
+        lWorkReplyInfo.setReply(reply);
+        lWorkReplyInfo.setWbId(Long.valueOf(wbId));
+        lWorkReplyInfo.setWbName(wbName);
         return toAjax(lWorkReplyInfoService.insertLWorkReplyInfo(lWorkReplyInfo));
     }
 

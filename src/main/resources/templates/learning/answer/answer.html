@@ -29,8 +29,8 @@
                              <h2 th:text="${answer.fileName}"></h2>
                              <p th:text="${answer.description}">
                              </p>
-                             <a th:href="@{/learning/answer/detail/{wbId}(wdId=${answer.id})}" class="btn btn-sm btn-primary"> 更多信息</a>
-                             <small th:text="${answer.createTime}"></small>
+                             <a th:onclick="'replyDetail(\'' + ${answer.id} + '\');'" class="btn btn-sm btn-primary"> 更多信息</a>
+                             <small th:text="${answer.publishDate}"></small>
                          </div>
                      </div>
                  </div>
@@ -57,25 +57,17 @@
     </div>
     <th:block th:include="include :: footer" />
     <script>
-        $(document).ready(function(){
-            // event.preventDefault()
-            // $('#ibox-content').removeClass('ibox-content');
-            // $('#vertical-timeline').removeClass('dark-timeline');
-            // $('#vertical-timeline').addClass('light-timeline');
-
-            // $('#lightVersion').click(function(event) {
-            //     event.preventDefault()
-            //     $('#ibox-content').removeClass('ibox-content');
-            //     $('#vertical-timeline').removeClass('dark-timeline');
-            //     $('#vertical-timeline').addClass('light-timeline');
-            // });
-            // $('#darkVersion').click(function(event) {
-            //     event.preventDefault()
-            //     $('#ibox-content').addClass('ibox-content');
-            //     $('#vertical-timeline').removeClass('light-timeline');
-            //     $('#vertical-timeline').addClass('dark-timeline');
-            // });
-        });
+        var prefix = ctx + "learning/answer";
+        var replyDetail = function (wbId) {
+            $.modal.openTab("主题答疑详细", editUrl(wbId));
+        };
+        var editUrl = function(id) {
+            var url = "/404.html";
+            if ($.common.isNotEmpty(id)) {
+                url =  prefix + "/detail/{id}".replace("{id}", id);
+            }
+            return url;
+        }
     </script>
 </body>
 </html>

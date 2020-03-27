@@ -38,6 +38,16 @@ public class UploadWorkFileInfo extends BaseEntity
     @Excel(name = "关联上传人员姓名")
     private String userName;
 
+    private String publishDate;
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
+
     public void setId(Long id)
     {
         this.id = id;

@@ -2,75 +2,41 @@
 <html lang="zh">
 <head>
 	<th:block th:include="include :: header('拖动排序')" />
+    <th:block th:include="include :: header('Summernote富文本编辑器')" />
+    <th:block th:include="include :: summernote-css" />
 </head>
 <body class="gray-bg">
     <div class="wrapper wrapper-content  animated fadeInRight">
+
+        <input type="hidden" th:value="${themeId}" id="themeId">
+
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-1">
 
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <div class="ibox">
                     <div class="ibox-content">
-                        <h3>进行中</h3>
-                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
-                        <ul class="sortable-list connectList agile-list">
-                            <li class="success-element">
-                                全面、较深入地掌握我们“产品”的功能、特色和优势并做到应用自如。
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>
-                                    <i class="fa fa-clock-o"></i> 2018.09.01
-                                </div>
-                            </li>
-                            <li class="success-element">
-                                根据自己以前所了解的和从其他途径搜索到的信息，录入客户资料150家。
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-                                    <i class="fa fa-clock-o"></i> 2018.05.12
-                                </div>
-                            </li>
-                            <li class="warning-element">
-                                锁定有意向客户20家。
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-                                    <i class="fa fa-clock-o"></i> 2018.09.10
-                                </div>
-                            </li>
-                            <li class="warning-element">
-                                力争完成销售指标。
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">标签</a>
-                                    <i class="fa fa-clock-o"></i> 2018.09.09
-                                </div>
-                            </li>
+                        <h3 th:text="${themeName}" class="text-center" id="themeName"></h3>
+                        <p class="small" th:text="${themeDescription}"><i class="fa fa-hand-o-up"></i></p>
+
+                        <ul class="sortable-list connectList agile-list" th:each="replyInfo : ${replyInfos}">
+
                             <li class="info-element">
-                                在总结和摸索中前进。
                                 <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
-                                    <i class="fa fa-clock-o"></i> 2018.08.04
+                                    <a href="#" class="pull-right btn btn-xs btn-white">回复</a>
+                                    <i class="fa fa-clock-o" th:text="${replyInfo.publishDate}"></i>  <i class="fa" th:text="${replyInfo.replyFromUserName}"></i>
                                 </div>
+                                <p th:text="${replyInfo.reply}"></p>
                             </li>
-                            <li class="success-element">
-                                不断学习行业知识、产品知识，为客户带来实用介绍内容
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-                                    <i class="fa fa-clock-o"></i> 2018.05.12
-                                </div>
-                            </li>
-                            <li class="danger-element">
-                                先友后单：与客户发展良好友谊，转换销售员角色，处处为客户着想
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-                                    <i class="fa fa-clock-o"></i> 2018.11.04
-                                </div>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-sm-1">
 
             </div>
 
@@ -78,11 +44,11 @@
 
 
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-1">
 
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>编辑/保存为html代码示例</h5>
@@ -92,21 +58,14 @@
                     <div class="ibox-content" id="eg">
 
                         <div class="click2edit wrapper">
-                            <h3>你好，若依 </h3>
-                            <p>H+是一个完全响应式，基于Bootstrap3.3.6最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术，她提供了诸多的强大的可以重新组合的UI组件，并集成了最新的jQuery版本(v2.1.1)，当然，也集成了很多功能强大，用途广泛的就jQuery插件，她可以用于所有的Web应用程序，如<b>网站管理后台</b>，<b>网站会员中心</b>，<b>CMS</b>，<b>CRM</b>，<b>OA</b>等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
-                            <p>
-                                <b>当前版本：</b>v4.1.0
-                            </p>
-                            <p>
-                                <span class="label label-warning">开源免费</span>
-                            </p>
+                            此处可以留言哦
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-2">
+            <div class="col-sm-1">
 
             </div>
 
@@ -114,12 +73,11 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:src="@{/js/jquery-ui-1.10.4.min.js}"></script>
-    <th:block th:include="include :: footer" />
     <th:block th:include="include :: summernote-js" />
 
     <script>
+        var prefix = ctx + "learning/answer";
         $(document).ready(function () {
-            $(".sortable-list").sortable({connectWith: ".connectList"}).disableSelection();
 
             $('.summernote').summernote({
                 lang: 'zh-CN'
@@ -132,11 +90,53 @@
                 focus: true
             });
         };
+
         var save = function () {
             $("#eg").removeClass("no-padding");
-            var aHTML = $('.click2edit').summernote('code');
+            let reply = $('.click2edit').summernote('code');
             $('.click2edit').summernote('destroy');
+
+            let wbId=$("#themeId").val();
+            let wbName=$("#themeName").html();
+
+            let lWorkReplyInfo = {
+                "reply":reply,
+                "wbId":wbId,
+                "wbName":wbName
+            };
+            let url = prefix + "/add";
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: lWorkReplyInfo,
+                dataType: "json",
+                success: function(result) {
+                    console.log(result)
+                    // $.operate.successCallback(result);
+                }
+            });
+
         };
+
+        // saveTab: function(url, data, callback) {
+        //     var config = {
+        //         url: url,
+        //         type: "post",
+        //         dataType: "json",
+        //         data: data,
+        //         beforeSend: function () {
+        //             $.modal.loading("正在处理中，请稍后...");
+        //         },
+        //         success: function(result) {
+        //             if (typeof callback == "function") {
+        //                 callback(result);
+        //             }
+        //             $.operate.successTabCallback(result);
+        //         }
+        //     };
+        //     $.ajax(config)
+        // }
+
     </script>
 </body>
 </html>
