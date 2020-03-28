@@ -3,6 +3,7 @@ package com.ruoyi.project.learning.answer.service.impl;
 import com.google.common.collect.Maps;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.html.EscapeUtil;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.learning.answer.domain.LWorkReplyInfo;
@@ -159,8 +160,20 @@ public class LWorkReplyInfoServiceImpl implements ILWorkReplyInfoService {
         if (StringUtils.isEmpty(replyInfos)) {
             return map;
         }
-        replyInfos.stream().forEach(x -> x.setPublishDate(DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, x.getReplyTime())));
-        replyInfos = replyInfos.stream().sorted(Comparator.comparing(LWorkReplyInfo::getReplyTime).reversed()).collect(Collectors.toList());
+        replyInfos.stream().forEach(x ->{
+            x.setPublishDate(DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, x.getReplyTime()));
+//            if(StringUtils.isNotEmpty(x.getReplyToUserId())){
+//                String name = x.getReplyToUserName();
+//                String reply = x.getReply();
+//                String[] split = reply.split(name);
+//                String res = name+"@@@";
+//                if(split.length>1){
+//                    res+=split[1];
+//                }
+//                x.setReply(res);
+//            }
+        } );
+        replyInfos = replyInfos.stream().sorted(Comparator.comparing(LWorkReplyInfo::getReplyTime)).collect(Collectors.toList());
 //        // 根据内容  回复对象id 为空 说明是评论
 //        List<LWorkReplyInfo> commentList = replyInfos.stream().filter(x -> StringUtils.isEmpty(x.getReplyToUserId())).collect(Collectors.toList());
 //

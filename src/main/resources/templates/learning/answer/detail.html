@@ -11,9 +11,7 @@
         <input type="hidden" th:value="${themeId}" id="themeId">
 
         <div class="row">
-            <div class="col-sm-1">
-
-            </div>
+            <div class="col-sm-1"></div>
 
             <div class="col-sm-10">
                 <div class="ibox">
@@ -24,11 +22,13 @@
                         <ul class="sortable-list connectList agile-list" th:each="replyInfo : ${replyInfos}">
 
                             <li class="info-element">
+<!--                                <p th:text="${replyInfo.reply}"></p>-->
+                                <p>[(${replyInfo.reply})]</p>
+                                <hr class="simple" color="#6f5499" />
                                 <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">回复</a>
-                                    <i class="fa fa-clock-o" th:text="${replyInfo.publishDate}"></i>  <i class="fa" th:text="${replyInfo.replyFromUserName}"></i>
+                                    <a href="javascript:void(0);" th:onclick="replyContent([[${replyInfo.replyFromUserId} ]] ,[[${replyInfo.replyFromUserName}]] );" class="pull-right btn btn-xs btn-white">回复</a>
+                                    <i class="fa fa-clock-o" th:text="${replyInfo.publishDate}"></i> | <i class="fa" th:text="${replyInfo.replyFromUserName}"></i>
                                 </div>
-                                <p th:text="${replyInfo.reply}"></p>
                             </li>
 
                         </ul>
@@ -36,38 +36,27 @@
                 </div>
             </div>
 
-            <div class="col-sm-1">
-
-            </div>
+            <div class="col-sm-1"></div>
 
         </div>
 
 
         <div class="row">
-            <div class="col-sm-1">
-
-            </div>
+            <div class="col-sm-1"> </div>
 
             <div class="col-sm-10">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>编辑/保存为html代码示例</h5>
+                        <h5>评论区</h5>
                         <button id="edit" class="btn btn-primary btn-xs m-l-sm" onclick="edit()" type="button">编辑</button>
                         <button id="save" class="btn btn-primary  btn-xs" onclick="save()" type="button">保存</button>
                     </div>
-                    <div class="ibox-content" id="eg">
-
-                        <div class="click2edit wrapper">
-                            此处可以留言哦
-                        </div>
-
-                    </div>
+<!--                    <input id="replyContent" name="replyContent" th:field="*{replyContent}" type="hidden">-->
+                    <div id="editor" class="summernote"></div>
                 </div>
             </div>
 
-            <div class="col-sm-1">
-
-            </div>
+            <div class="col-sm-1"></div>
 
         </div>
     </div>
@@ -77,33 +66,55 @@
 
     <script>
         var prefix = ctx + "learning/answer";
-        $(document).ready(function () {
 
+        $(document).ready(function () {
             $('.summernote').summernote({
-                lang: 'zh-CN'
+                placeholder: '请输入评论',
+                height : 152,
+                lang : 'zh-CN'
             });
         });
+
+
         var edit = function () {
-            $("#eg").addClass("no-padding");
-            $('.click2edit').summernote({
+            $("#editor").addClass("no-padding");
+            $('.summernote').summernote({
                 lang: 'zh-CN',
                 focus: true
             });
         };
 
+        var replyToUserId;
+        var replyToUserName;
+        var replyContent = function(replyFromUserId,replyFromUserName){
+            $('.summernote').summernote({
+                focus: true
+            });
+            $('#editor').summernote('code',"@" + replyFromUserName + "\n");
+            replyToUserId=replyFromUserId;
+            replyToUserName=replyFromUserName;
+        };
+
         var save = function () {
-            $("#eg").removeClass("no-padding");
-            let reply = $('.click2edit').summernote('code');
-            $('.click2edit').summernote('destroy');
+            $("#editor").removeClass("no-padding");
+            let reply = $('.summernote').summernote('code');
+            $('.summernote').summernote('destroy');
 
             let wbId=$("#themeId").val();
             let wbName=$("#themeName").html();
 
-            let lWorkReplyInfo = {
-                "reply":reply,
-                "wbId":wbId,
-                "wbName":wbName
-            };
+            let lWorkReplyInfo = {};
+            lWorkReplyInfo["reply"]=reply;
+            lWorkReplyInfo["wbId"]=wbId;
+            lWorkReplyInfo["wbName"]=wbName;
+
+            if(reply.includes("@") && replyToUserId!=null && replyToUserId!="") {
+                lWorkReplyInfo["replyToUserId"]=replyToUserId;
+                lWorkReplyInfo["replyToUserName"]=replyToUserName;
+            }else{
+                lWorkReplyInfo["replyToUserId"]="";
+                lWorkReplyInfo["replyToUserName"]="";
+            }
             let url = prefix + "/add";
             $.ajax({
                 url: url,
@@ -118,24 +129,7 @@
 
         };
 
-        // saveTab: function(url, data, callback) {
-        //     var config = {
-        //         url: url,
-        //         type: "post",
-        //         dataType: "json",
-        //         data: data,
-        //         beforeSend: function () {
-        //             $.modal.loading("正在处理中，请稍后...");
-        //         },
-        //         success: function(result) {
-        //             if (typeof callback == "function") {
-        //                 callback(result);
-        //             }
-        //             $.operate.successTabCallback(result);
-        //         }
-        //     };
-        //     $.ajax(config)
-        // }
+
 
     </script>
 </body>

@@ -3,6 +3,7 @@ package com.ruoyi.project.learning.answer.controller;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.html.EscapeUtil;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -21,19 +22,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 作业讨论答疑信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2020-03-22
  */
 @Controller
 @RequestMapping("/learning/answer")
-public class LWorkReplyInfoController extends BaseController
-{
+public class LWorkReplyInfoController extends BaseController {
     private String prefix = "learning/answer";
 
     @Autowired
@@ -42,8 +43,7 @@ public class LWorkReplyInfoController extends BaseController
 
     @RequiresPermissions("learning:answer:view")
     @GetMapping("/info")
-    public String info()
-    {
+    public String info() {
         return prefix + "/info";
     }
 
@@ -53,8 +53,7 @@ public class LWorkReplyInfoController extends BaseController
     @RequiresPermissions("learning:answer:list")
     @GetMapping()
     public String answer(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,ModelMap mmap)
-    {
+                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, ModelMap mmap) {
         startPage();
         List<UploadWorkFileInfo> answerList = lWorkReplyInfoService.selectWorkByUser();
 
@@ -70,14 +69,13 @@ public class LWorkReplyInfoController extends BaseController
      * 作业答疑详情
      */
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable(value = "id") String wdId, ModelMap mmap)
-    {
+    public String detail(@PathVariable(value = "id") String wdId, ModelMap mmap) {
 
         Map<String, Object> themeInfo = lWorkReplyInfoService.replyContnet(Long.valueOf(wdId));
         mmap.put("themeDescription", themeInfo.get("themeDescription"));
         mmap.put("themeName", themeInfo.get("themeName"));
         mmap.put("themeId", themeInfo.get("themeId"));
-        mmap.put("replyInfos",themeInfo.get("replyInfos"));
+        mmap.put("replyInfos", themeInfo.get("replyInfos"));
         return prefix + "/detail";
     }
 
@@ -89,8 +87,7 @@ public class LWorkReplyInfoController extends BaseController
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(LWorkReplyInfo lWorkReplyInfo)
-    {
+    public AjaxResult export(LWorkReplyInfo lWorkReplyInfo) {
         List<LWorkReplyInfo> list = lWorkReplyInfoService.selectLWorkReplyInfoList(lWorkReplyInfo);
         ExcelUtil<LWorkReplyInfo> util = new ExcelUtil<LWorkReplyInfo>(LWorkReplyInfo.class);
         return util.exportExcel(list, "info");
@@ -100,8 +97,7 @@ public class LWorkReplyInfoController extends BaseController
      * 新增作业讨论答疑信息
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -112,12 +108,19 @@ public class LWorkReplyInfoController extends BaseController
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(@RequestParam("reply") String reply,@RequestParam("wbId") String wbId,@RequestParam("wbName") String wbName )
-    {
+    public AjaxResult addSave(@RequestParam("reply") String reply, @RequestParam("wbId") String wbId, @RequestParam("wbName") String wbName,
+                              @RequestParam("replyToUserId") String replyToUserId, @RequestParam("replyToUserName") String replyToUserName) {
         LWorkReplyInfo lWorkReplyInfo = new LWorkReplyInfo();
-        lWorkReplyInfo.setReply(reply);
         lWorkReplyInfo.setWbId(Long.valueOf(wbId));
+        lWorkReplyInfo.setReply(reply);
         lWorkReplyInfo.setWbName(wbName);
+        lWorkReplyInfo.setReplyTime(new Date());
+        lWorkReplyInfo.setReplyFromUserId(String.valueOf(ShiroUtils.getSysUser().getUserId()));
+        lWorkReplyInfo.setReplyFromUserName(ShiroUtils.getSysUser().getUserName());
+        if(StringUtils.isNotEmpty(replyToUserId)){
+            lWorkReplyInfo.setReplyToUserId(replyToUserId);
+            lWorkReplyInfo.setReplyToUserName(replyToUserName);
+        }
         return toAjax(lWorkReplyInfoService.insertLWorkReplyInfo(lWorkReplyInfo));
     }
 
@@ -125,8 +128,7 @@ public class LWorkReplyInfoController extends BaseController
      * 修改作业讨论答疑信息
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         LWorkReplyInfo lWorkReplyInfo = lWorkReplyInfoService.selectLWorkReplyInfoById(id);
         mmap.put("lWorkReplyInfo", lWorkReplyInfo);
         return prefix + "/edit";
@@ -139,8 +141,7 @@ public class LWorkReplyInfoController extends BaseController
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(LWorkReplyInfo lWorkReplyInfo)
-    {
+    public AjaxResult editSave(LWorkReplyInfo lWorkReplyInfo) {
         return toAjax(lWorkReplyInfoService.updateLWorkReplyInfo(lWorkReplyInfo));
     }
 
@@ -149,10 +150,9 @@ public class LWorkReplyInfoController extends BaseController
      */
     @RequiresPermissions("learning:answer:remove")
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(lWorkReplyInfoService.deleteLWorkReplyInfoByIds(ids));
     }
 }
