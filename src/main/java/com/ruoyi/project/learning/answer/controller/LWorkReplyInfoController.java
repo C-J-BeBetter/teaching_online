@@ -1,21 +1,15 @@
 package com.ruoyi.project.learning.answer.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.html.EscapeUtil;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.learning.answer.domain.LWorkReplyInfo;
 import com.ruoyi.project.learning.answer.service.ILWorkReplyInfoService;
 import com.ruoyi.project.learning.work.domain.UploadWorkFileInfo;
-import com.ruoyi.project.learning.work.service.IUploadWorkFileInfoService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,27 +75,6 @@ public class LWorkReplyInfoController extends BaseController {
 
 
     /**
-     * 导出作业讨论答疑信息列表
-     */
-    @RequiresPermissions("learning:answer:export")
-    @Log(title = "作业讨论答疑信息", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(LWorkReplyInfo lWorkReplyInfo) {
-        List<LWorkReplyInfo> list = lWorkReplyInfoService.selectLWorkReplyInfoList(lWorkReplyInfo);
-        ExcelUtil<LWorkReplyInfo> util = new ExcelUtil<LWorkReplyInfo>(LWorkReplyInfo.class);
-        return util.exportExcel(list, "info");
-    }
-
-    /**
-     * 新增作业讨论答疑信息
-     */
-    @GetMapping("/add")
-    public String add() {
-        return prefix + "/add";
-    }
-
-    /**
      * 新增保存作业讨论答疑信息
      */
     @RequiresPermissions("learning:answer:add")
@@ -124,26 +97,6 @@ public class LWorkReplyInfoController extends BaseController {
         return toAjax(lWorkReplyInfoService.insertLWorkReplyInfo(lWorkReplyInfo));
     }
 
-    /**
-     * 修改作业讨论答疑信息
-     */
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
-        LWorkReplyInfo lWorkReplyInfo = lWorkReplyInfoService.selectLWorkReplyInfoById(id);
-        mmap.put("lWorkReplyInfo", lWorkReplyInfo);
-        return prefix + "/edit";
-    }
-
-    /**
-     * 修改保存作业讨论答疑信息
-     */
-    @RequiresPermissions("learning:answer:edit")
-    @Log(title = "作业讨论答疑信息", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
-    @ResponseBody
-    public AjaxResult editSave(LWorkReplyInfo lWorkReplyInfo) {
-        return toAjax(lWorkReplyInfoService.updateLWorkReplyInfo(lWorkReplyInfo));
-    }
 
     /**
      * 删除作业讨论答疑信息
