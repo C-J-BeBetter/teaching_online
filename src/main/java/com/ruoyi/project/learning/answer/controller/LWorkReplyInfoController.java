@@ -88,7 +88,7 @@ public class LWorkReplyInfoController extends BaseController {
         lWorkReplyInfo.setReply(reply);
         lWorkReplyInfo.setWbName(wbName);
         lWorkReplyInfo.setReplyTime(new Date());
-        lWorkReplyInfo.setReplyFromUserId(String.valueOf(ShiroUtils.getSysUser().getUserId()));
+        lWorkReplyInfo.setReplyFromUserId(String.valueOf(ShiroUtils.getUserId()));
         lWorkReplyInfo.setReplyFromUserName(ShiroUtils.getSysUser().getUserName());
         if(StringUtils.isNotEmpty(replyToUserId)){
             lWorkReplyInfo.setReplyToUserId(replyToUserId);
