@@ -178,4 +178,13 @@ public interface IUserService
      * @return 结果
      */
     public int changeStatus(User user);
+
+    /**
+     * 注册用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    public int registerUser(User user);
+
 }
