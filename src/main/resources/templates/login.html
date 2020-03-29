@@ -40,7 +40,6 @@
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
                     </ul>-->
-                    <strong>还没有账号？ <a href="javascript:void(0);" onclick="openRegister()">立即注册&raquo;</a></strong>
                 </div>
             </div>
             <div class="col-sm-5">
@@ -63,14 +62,17 @@
 				        <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
 				    </div>
                     <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
+                    <div style="margin-top: 30px">
+                        <strong>还没有账号？ <a href="javascript:void(0);" onclick="openRegister()">立即注册&raquo;</a></strong>
+                    </div>
                 </form>
             </div>
         </div>
-        <div class="signup-footer">
+        <!--<div class="signup-footer">
             <div class="pull-left">
                 &copy; 2019 All Rights Reserved. RuoYi <br>
             </div>
-        </div>
+        </div>-->
     </div>
 <script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
 <!-- 全局js -->
