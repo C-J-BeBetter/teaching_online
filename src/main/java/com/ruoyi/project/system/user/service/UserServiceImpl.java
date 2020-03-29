@@ -498,13 +498,14 @@ public class UserServiceImpl implements IUserService
     @Transactional
     public int registerUser(User user)
     {
-        Long[] postIds ;
-        postIds= new Long[]{Long.valueOf(4)};
+        Long[] postIds = new Long[]{Long.valueOf(4)};
+        Long[] roleIds = new Long[]{Long.valueOf(4)};
+
         user.randomSalt();
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
-        user.setCreateBy(ShiroUtils.getLoginName());
         user.setStatus("0");
         user.setPostIds(postIds);
+        user.setRoleIds(roleIds);
         // 新增用户信息
         int rows = userMapper.insertUser(user);
         // 新增用户岗位关联
