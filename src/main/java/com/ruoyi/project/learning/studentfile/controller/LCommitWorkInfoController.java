@@ -97,7 +97,6 @@ public class LCommitWorkInfoController extends BaseController {
         // 上传并返回新文件名称
         String path = FileUploadUtils.upload(filePath, file);
         User user = userService.selectUserById(Long.valueOf(lCommitWorkInfo.getCorrectUserId()));
-        lCommitWorkInfo.setFileName(file.getOriginalFilename());
         lCommitWorkInfo.setCommitTime(new Date());
         lCommitWorkInfo.setPath(path);
         lCommitWorkInfo.setCorrectUserId(String.valueOf(user.getUserId()));
