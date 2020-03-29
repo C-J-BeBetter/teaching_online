@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils.security;
 
+import com.ruoyi.project.system.role.domain.Role;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.session.Session;
@@ -10,6 +11,10 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.framework.shiro.realm.UserRealm;
 import com.ruoyi.project.system.user.domain.User;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * shiro 工具类
@@ -60,6 +65,22 @@ public class ShiroUtils
         RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
         UserRealm realm = (UserRealm) rsm.getRealms().iterator().next();
         realm.clearCachedAuthorizationInfo();
+    }
+
+    /**
+     * 检查用户是否是指定角色
+     * @param roleName
+     * @return
+     */
+    public static Boolean checkUserRole(String roleName)
+    {
+        List<Role> roles = getSysUser().getRoles();
+        Optional<Role> optionalRole = roles.stream()
+                .filter(role -> role.getRoleKey().equals(roleName)).findFirst();
+        if (optionalRole.isPresent()){
+            return true;
+        }
+        return false;
     }
 
     public static Long getUserId()

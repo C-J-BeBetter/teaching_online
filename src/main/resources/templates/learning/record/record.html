@@ -14,12 +14,16 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>关联学员ID：</label>
+                                <label>用户名：</label>
                                 <input type="text" name="userId"/>
                             </li>
                             <li>
+                                <label>姓名：</label>
+                                <input type="text" name="userName"/>
+                            </li>
+                            <li>
                                 <label>笔记标题：</label>
-                                <input type="text" name="title"/>
+                                <input type="text" name="title" placeholder="模糊匹配"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -68,20 +72,32 @@
                 },
                 {
                     field : 'id', 
-                    title : '文件ID',
+                    title : '笔记ID',
                     visible: false
                 },
                 {
-                    field : 'description', 
+                    field : 'title',
+                    title : '笔记标题'
+                },
+                {
+                    field : 'description',
                     title : '笔记内容'
                 },
                 {
-                    field : 'userId', 
-                    title : '关联学员ID'
+                    field : 'userId',
+                    title : '用户名'
                 },
                 {
-                    field : 'title', 
-                    title : '笔记标题'
+                    field : 'userName',
+                    title : '姓名'
+                },
+                {
+                    field : 'createTime',
+                    title : '创建时间'
+                },
+                {
+                    field : 'updateTime',
+                    title : '修改时间'
                 },
                 {
                     title: '操作',

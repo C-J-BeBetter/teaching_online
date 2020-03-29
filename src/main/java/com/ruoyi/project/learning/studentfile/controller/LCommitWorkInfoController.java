@@ -96,12 +96,12 @@ public class LCommitWorkInfoController extends BaseController {
         String filePath = RuoYiConfig.getUploadPath();
         // 上传并返回新文件名称
         String path = FileUploadUtils.upload(filePath, file);
-        User user = userService.selectUserById(Long.valueOf(lCommitWorkInfo.getCorrectUserId()));
+        User user = userService.selectUserByLoginName(lCommitWorkInfo.getCorrectUserId());
         lCommitWorkInfo.setCommitTime(new Date());
         lCommitWorkInfo.setPath(path);
-        lCommitWorkInfo.setCorrectUserId(String.valueOf(user.getUserId()));
+        lCommitWorkInfo.setCorrectUserId(String.valueOf(user.getLoginName()));
         lCommitWorkInfo.setCorrectUserName(user.getUserName());
-        lCommitWorkInfo.setCommitUserId(String.valueOf(ShiroUtils.getUserId()));
+        lCommitWorkInfo.setCommitUserId(String.valueOf(ShiroUtils.getLoginName()));
         lCommitWorkInfo.setCommitUserName(ShiroUtils.getSysUser().getUserName());
         return toAjax(lCommitWorkInfoService.insertLCommitWorkInfo(lCommitWorkInfo));
     }
@@ -124,6 +124,7 @@ public class LCommitWorkInfoController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(LCommitWorkInfo lCommitWorkInfo) {
+        lCommitWorkInfo.setCorrectTime(new Date());
         return toAjax(lCommitWorkInfoService.updateLCommitWorkInfo(lCommitWorkInfo));
     }
 

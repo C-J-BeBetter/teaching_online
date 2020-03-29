@@ -1,12 +1,19 @@
 package com.ruoyi.project.learning.studentfile.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+
+import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.project.system.role.domain.Role;
+import com.ruoyi.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.learning.studentfile.mapper.LCommitWorkInfoMapper;
 import com.ruoyi.project.learning.studentfile.domain.LCommitWorkInfo;
 import com.ruoyi.project.learning.studentfile.service.ILCommitWorkInfoService;
 import com.ruoyi.common.utils.text.Convert;
+
+import javax.annotation.Resource;
 
 /**
  * 提交作业信息Service业务层处理
@@ -17,7 +24,7 @@ import com.ruoyi.common.utils.text.Convert;
 @Service
 public class LCommitWorkInfoServiceImpl implements ILCommitWorkInfoService 
 {
-    @Autowired
+    @Resource
     private LCommitWorkInfoMapper lCommitWorkInfoMapper;
 
     /**
@@ -41,6 +48,13 @@ public class LCommitWorkInfoServiceImpl implements ILCommitWorkInfoService
     @Override
     public List<LCommitWorkInfo> selectLCommitWorkInfoList(LCommitWorkInfo lCommitWorkInfo)
     {
+        String loginName = ShiroUtils.getLoginName();
+        if (ShiroUtils.checkUserRole("teacher")) {
+            lCommitWorkInfo.setCorrectUserId(loginName);
+        }
+        if (ShiroUtils.checkUserRole("student")) {
+            lCommitWorkInfo.setCommitUserId(loginName);
+        }
         return lCommitWorkInfoMapper.selectLCommitWorkInfoList(lCommitWorkInfo);
     }
 

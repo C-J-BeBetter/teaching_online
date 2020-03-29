@@ -15,8 +15,12 @@ public class LearningRecordInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 文件ID */
+    /** 笔记ID */
     private Long id;
+
+    /** 笔记标题 */
+    @Excel(name = "笔记标题")
+    private String title;
 
     /** 笔记内容 */
     @Excel(name = "笔记内容")
@@ -26,9 +30,9 @@ public class LearningRecordInfo extends BaseEntity
     @Excel(name = "关联学员ID")
     private String userId;
 
-    /** 笔记标题 */
-    @Excel(name = "笔记标题")
-    private String title;
+    /** 关联学员姓名 */
+    @Excel(name = "关联学员姓名")
+    private String userName;
 
     public void setId(Long id) 
     {
@@ -67,15 +71,22 @@ public class LearningRecordInfo extends BaseEntity
         return title;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("description", getDescription())
-            .append("userId", getUserId())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("title", getTitle())
-            .toString();
+        return "LearningRecordInfo{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

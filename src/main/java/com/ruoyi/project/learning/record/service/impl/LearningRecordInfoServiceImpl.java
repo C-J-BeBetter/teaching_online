@@ -44,6 +44,8 @@ public class LearningRecordInfoServiceImpl implements ILearningRecordInfoService
     @Override
     public List<LearningRecordInfo> selectLearningRecordInfoList(LearningRecordInfo learningRecordInfo)
     {
+        if (ShiroUtils.checkUserRole("student") || ShiroUtils.checkUserRole("teacher"))
+            learningRecordInfo.setUserId(ShiroUtils.getLoginName());
         return learningRecordInfoMapper.selectLearningRecordInfoList(learningRecordInfo);
     }
 
@@ -59,6 +61,7 @@ public class LearningRecordInfoServiceImpl implements ILearningRecordInfoService
         learningRecordInfo.setCreateTime(DateUtils.getNowDate());
         User sysUser  = ShiroUtils.getSysUser();
         learningRecordInfo.setUserId(sysUser.getLoginName());
+        learningRecordInfo.setUserName(sysUser.getUserName());
         return learningRecordInfoMapper.insertLearningRecordInfo(learningRecordInfo);
     }
 

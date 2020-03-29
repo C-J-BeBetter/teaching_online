@@ -8,27 +8,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="description"    column="description"    />
         <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="title"    column="title"    />
     </resultMap>
 
     <sql id="selectLearningRecordInfoVo">
-        select id, description, user_id, create_time, update_time, title from l_learning_record_info order by create_time desc
+        select id, title, description, user_id, user_name, create_time, update_time
+        from (
+            select id, description, user_id, user_name, create_time, update_time, title,
+                ifnull(update_time, create_time) edit_time
+            from l_learning_record_info
+        ) t
+    </sql>
+
+    <sql id="orderBy">
+        order by edit_time desc
     </sql>
 
     <select id="selectLearningRecordInfoList" parameterType="LearningRecordInfo" resultMap="LearningRecordInfoResult">
         <include refid="selectLearningRecordInfoVo"/>
         <where>  
-            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
         </where>
+        <include refid="orderBy"/>
     </select>
     
     <select id="selectLearningRecordInfoById" parameterType="Long" resultMap="LearningRecordInfoResult">
         <include refid="selectLearningRecordInfoVo"/>
         where id = #{id}
+        <include refid="orderBy"/>
     </select>
         
     <insert id="insertLearningRecordInfo" parameterType="LearningRecordInfo" useGeneratedKeys="true" keyProperty="id">
@@ -36,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="description != null  and description != ''">description,</if>
             <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateTime != null ">update_time,</if>
             <if test="title != null  and title != ''">title,</if>
@@ -43,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="description != null  and description != ''">#{description},</if>
             <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="title != null  and title != ''">#{title},</if>
@@ -54,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="description != null  and description != ''">description = #{description},</if>
             <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="title != null  and title != ''">title = #{title},</if>

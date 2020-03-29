@@ -35,7 +35,7 @@ public class LWorkReplyInfoController extends BaseController {
     private ILWorkReplyInfoService lWorkReplyInfoService;
 
 
-    @RequiresPermissions("learning:answer:view")
+//    @RequiresPermissions("learning:answer:view")
     @GetMapping("/info")
     public String info() {
         return prefix + "/info";
@@ -44,7 +44,7 @@ public class LWorkReplyInfoController extends BaseController {
     /**
      * 查询作业讨论答疑信息列表
      */
-    @RequiresPermissions("learning:answer:list")
+//    @RequiresPermissions("learning:answer:list")
     @GetMapping()
     public String answer(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize, ModelMap mmap) {
@@ -77,7 +77,7 @@ public class LWorkReplyInfoController extends BaseController {
     /**
      * 新增保存作业讨论答疑信息
      */
-    @RequiresPermissions("learning:answer:add")
+//    @RequiresPermissions("learning:answer:add")
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -101,7 +101,7 @@ public class LWorkReplyInfoController extends BaseController {
     /**
      * 删除作业讨论答疑信息
      */
-    @RequiresPermissions("learning:answer:remove")
+//    @RequiresPermissions("learning:answer:remove")
     @Log(title = "作业讨论答疑信息", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody

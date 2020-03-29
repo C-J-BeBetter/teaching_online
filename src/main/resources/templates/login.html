@@ -40,7 +40,7 @@
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
                     </ul>-->
-                    <strong>还没有账号？ <a href="register.html">立即注册&raquo;</a></strong>
+                    <strong>还没有账号？ <a href="javascript:void(0);" onclick="openRegister()">立即注册&raquo;</a></strong>
                 </div>
             </div>
             <div class="col-sm-5">
@@ -83,5 +83,10 @@
 <script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
 <script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.1.0}"></script>
 <script src="../static/ruoyi/login.js" th:src="@{/ruoyi/login.js}"></script>
+<script type="text/javascript">
+    function openRegister(){
+        $.modal.open("注册", "register/view");
+    }
+</script>
 </body>
 </html>

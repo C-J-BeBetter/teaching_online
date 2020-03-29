@@ -6,7 +6,6 @@ import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.system.post.service.IPostService;
-import com.ruoyi.project.system.role.service.IRoleService;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.service.IUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -14,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -23,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
  * @author ruoyi
  */
 @Controller
-@RequestMapping("/register")
 public class RegisterController extends BaseController
 {
     private String prefix = "register";
@@ -32,36 +33,21 @@ public class RegisterController extends BaseController
     private IUserService userService;
 
     @Autowired
-    private IRoleService roleService;
-
-    @Autowired
     private IPostService postService;
 
-    @RequiresPermissions("register:view")
-    @GetMapping()
+    @GetMapping("/register")
     public String user()
     {
-        return prefix + "/register";
-    }
-
-    /**
-     * 注册用户
-     */
-    @GetMapping("/register")
-    public String add(ModelMap mmap)
-    {
-        mmap.put("posts", postService.selectPostAll());
-        return prefix + "/register";
+        return prefix;
     }
 
     /**
      * 注册保存用户
      */
-    @RequiresPermissions("register")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
-    @PostMapping("/register")
+    @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addRegister(@Validated User user)
+    public AjaxResult add(@Validated User user)
     {
         if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
         {
