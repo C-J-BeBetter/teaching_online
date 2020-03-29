@@ -3,15 +3,12 @@ package com.ruoyi.project.learning.answer.service.impl;
 import com.google.common.collect.Maps;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.learning.answer.domain.LWorkReplyInfo;
 import com.ruoyi.project.learning.answer.mapper.LWorkReplyInfoMapper;
 import com.ruoyi.project.learning.answer.service.ILWorkReplyInfoService;
 import com.ruoyi.project.learning.work.domain.UploadWorkFileInfo;
 import com.ruoyi.project.learning.work.service.IUploadWorkFileInfoService;
-import com.ruoyi.project.system.role.domain.Role;
-import com.ruoyi.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,30 +102,9 @@ public class LWorkReplyInfoServiceImpl implements ILWorkReplyInfoService {
 
     @Override
     public List<UploadWorkFileInfo> selectWorkByUser() {
-        //1.登录信息
-        User user = ShiroUtils.getSysUser();
-        List<Role> roles = user.getRoles();
-        boolean teacher_flag = roles.stream().anyMatch(role -> role.getRoleKey().equals(ADMIN) || role.getRoleKey().equals(TEACHER));
-        boolean student_flag = roles.stream().anyMatch(role -> role.getRoleKey().equals(STUDENT));
-//        //2.根据登录信息获取对应老师发布的作业
-//        List<UploadWorkFileInfo> uploadWorkFileInfoList;
-//        if(teacher_flag){
-//              //所有班级信息
-//            UploadWorkFileInfo uploadWorkFileInfo = new UploadWorkFileInfo();
-//            uploadWorkFileInfo.setUserId(String.valueOf(user.getUserId()));
-//            uploadWorkFileInfoList = iUploadWorkFileInfoService.selectUploadWorkFileInfoList(uploadWorkFileInfo);
-//        }else if(student_flag){
-//            //查看所在班级作业信息
-//        }
+        //1.//所有发布作业
 
         UploadWorkFileInfo uploadWorkFileInfo = new UploadWorkFileInfo();
-        if (teacher_flag) {
-            //所有作业
-            uploadWorkFileInfo.setUserId(String.valueOf(user.getUserId()));
-        } else if (student_flag) {
-            //自己作业
-//            uploadWorkFileInfo.setUserId(String.valueOf(user.getUserId()));
-        }
 
         List<UploadWorkFileInfo> uploadWorkFileInfoList = iUploadWorkFileInfoService.selectUploadWorkFileInfoList(uploadWorkFileInfo);
         if (StringUtils.isNotEmpty(uploadWorkFileInfoList)) {
@@ -159,14 +135,10 @@ public class LWorkReplyInfoServiceImpl implements ILWorkReplyInfoService {
         if (StringUtils.isEmpty(replyInfos)) {
             return map;
         }
-        replyInfos.stream().forEach(x -> x.setPublishDate(DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, x.getReplyTime())));
-        replyInfos = replyInfos.stream().sorted(Comparator.comparing(LWorkReplyInfo::getReplyTime).reversed()).collect(Collectors.toList());
-//        // 根据内容  回复对象id 为空 说明是评论
-//        List<LWorkReplyInfo> commentList = replyInfos.stream().filter(x -> StringUtils.isEmpty(x.getReplyToUserId())).collect(Collectors.toList());
-//
-//        // 根据内容  回复对象id 非空 说明是回复
-//        List<LWorkReplyInfo> replyList = replyInfos.stream().filter(x -> StringUtils.isNotEmpty(x.getReplyToUserId())).collect(Collectors.toList());
-
+        replyInfos.stream().forEach(x ->{
+            x.setPublishDate(DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, x.getReplyTime()));
+        } );
+        replyInfos = replyInfos.stream().sorted(Comparator.comparing(LWorkReplyInfo::getReplyTime)).collect(Collectors.toList());
         map.put("replyInfos", replyInfos);
         return map;
 
