@@ -15,25 +15,26 @@
 <body class="gray-bg">
     <div class="row  border-bottom white-bg dashboard-header">
         <div class="col-sm-12">
-            <blockquote class="text-warning" style="font-size:14px">
+            <!--<blockquote class="text-warning" style="font-size:14px">
                                            领取阿里云通用云产品1888优惠券
                 <br><a target="_blank" href="https://www.aliyun.com/minisite/goods?userCode=brki8iof">https://www.aliyun.com/minisite/goods?userCode=brki8iof</a><br>
                                            领取腾讯云通用云产品2860优惠券
                 <br><a target="_blank" href="https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console">https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console</a><br>
                 <h4 class="text-danger">云产品通用红包，可叠加官网常规优惠使用。(仅限新用户)</h4>
-            </blockquote>
+            </blockquote>-->
+			<h2 class="text-center">欢迎使用 在线课程学习系统！</h2>
 
             <hr>
         </div>
-        <div class="col-sm-3">
-            <h2>Hello,Guest</h2>
-            <small>移动设备访问请扫描以下二维码：</small>
+        <div class="col-sm-6">
+<!--            <h2>Hello,</h2>-->
+			<h4>系统架构：</h4>
             <br>
             <br>
-            <img th:src="@{/img/qr_code.png}" width="100%" style="max-width:264px;">
+            <img th:src="@{/img/jiagou.png}" width="100%" style="max-width:800px;">
             <br>
         </div>
-        <div class="col-sm-5">
+		<!--<div class="col-sm-5">
             <h2>若依后台管理框架</h2>
             <p>一直想做一款后台管理系统，看了很多优秀的开源项目但是发现没有合适自己的。于是利用空闲休息时间开始自己写一套后台系统。如此有了若依管理系统。，她可以用于所有的Web应用程序，如<b>网站管理后台</b>，<b>网站会员中心</b>，<b>CMS</b>，<b>CRM</b>，<b>OA</b>等等，当然，您也可以对她进行深度定制，以做出更强系统。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。</p>
             <p>
@@ -51,8 +52,8 @@
                     <i class="fa fa-home"></i> 访问主页
                 </a>
             </p>
-        </div>
-        <div class="col-sm-4">
+        </div>-->
+        <div class="col-sm-6">
             <h4>技术选型：</h4>
             <ol>
                 <li>核心框架：Spring Boot。</li>
@@ -65,9 +66,9 @@
                 <li>更多……</li>
             </ol>
         </div>
-
     </div>
-    <div class="wrapper wrapper-content">
+
+    <!--<div class="wrapper wrapper-content">
         <div class="row">
             <div class="col-sm-4">
 
@@ -856,11 +857,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-    <script type="text/javascript">
+    <!--<script type="text/javascript">
 	    $('#pay-qrcode').click(function(){
 	        var html=$(this).html();
 	        parent.layer.open({
@@ -872,6 +873,6 @@
 	            content: html
 	        });
 	    });
-    </script>
+    </script>-->
 </body>
 </html>
